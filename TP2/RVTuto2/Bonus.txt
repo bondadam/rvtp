@@ -1,0 +1,3 @@
+Bonus 1: Ajout d'un QComboBox permettant d'appliquer un filtre (R, G ou B) de force variable sur les couleurs des faces du cube.
+
+Bonus 2: Utilisation de gl_fragCoord et de width() & height() pour appliquer un dégrader sur les faces du cube dans le fragment shader.
