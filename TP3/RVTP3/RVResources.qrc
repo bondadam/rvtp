@@ -11,6 +11,8 @@
         <file>FS_texture_damier.fsh</file>
         <file>VS_cube_texture.vsh</file>
         <file>FS_cube_texture.fsh</file>
+        <file>VS_skybox_texture.vsh</file>
+        <file>FS_skybox_texture.fsh</file>
     </qresource>
     <qresource prefix="/textures">
         <file>wood.png</file>
@@ -19,5 +21,23 @@
         <file>2k_earth_daymap.jpg</file>
         <file>container.jpg</file>
         <file>dice_texture.jpg</file>
+        <file>negx.jpg</file>
+        <file>negy.jpg</file>
+        <file>negz.jpg</file>
+        <file>posx.jpg</file>
+        <file>posy.jpg</file>
+        <file>posz.jpg</file>
+        <file>cyprus_negx.jpg</file>
+        <file>cyprus_negy.jpg</file>
+        <file>cyprus_negz.jpg</file>
+        <file>cyprus_posx.jpg</file>
+        <file>cyprus_posy.jpg</file>
+        <file>cyprus_posz.jpg</file>
+        <file>toronto_negx.jpg</file>
+        <file>toronto_negy.jpg</file>
+        <file>toronto_negz.jpg</file>
+        <file>toronto_posx.jpg</file>
+        <file>toronto_posy.jpg</file>
+        <file>toronto_posz.jpg</file>
     </qresource>
 </RCC>

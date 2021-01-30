@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>800</width>
-    <height>600</height>
+    <width>1045</width>
+    <height>797</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -114,84 +114,209 @@
         </item>
         <item>
          <widget class="QGroupBox" name="groupBox">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="layoutDirection">
+           <enum>Qt::LeftToRight</enum>
+          </property>
+          <property name="autoFillBackground">
+           <bool>false</bool>
+          </property>
           <property name="title">
-           <string>Réglages objet</string>
+           <string>Noveau Cube</string>
+          </property>
+          <property name="flat">
+           <bool>false</bool>
+          </property>
+          <layout class="QFormLayout" name="formLayout">
+           <property name="sizeConstraint">
+            <enum>QLayout::SetDefaultConstraint</enum>
+           </property>
+           <item row="0" column="0">
+            <widget class="QLabel" name="label_2">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="text">
+              <string>x</string>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="1">
+            <widget class="QDoubleSpinBox" name="x">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="minimum">
+              <double>-20.000000000000000</double>
+             </property>
+             <property name="maximum">
+              <double>20.000000000000000</double>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="0">
+            <widget class="QLabel" name="label_3">
+             <property name="text">
+              <string>y</string>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="1">
+            <widget class="QDoubleSpinBox" name="y">
+             <property name="minimum">
+              <double>-20.000000000000000</double>
+             </property>
+             <property name="maximum">
+              <double>20.000000000000000</double>
+             </property>
+            </widget>
+           </item>
+           <item row="2" column="0">
+            <widget class="QLabel" name="label_4">
+             <property name="text">
+              <string>z</string>
+             </property>
+            </widget>
+           </item>
+           <item row="2" column="1">
+            <widget class="QDoubleSpinBox" name="z">
+             <property name="minimum">
+              <double>-20.000000000000000</double>
+             </property>
+             <property name="maximum">
+              <double>20.000000000000000</double>
+             </property>
+            </widget>
+           </item>
+           <item row="3" column="0">
+            <widget class="QLabel" name="label_5">
+             <property name="text">
+              <string>roulis</string>
+             </property>
+            </widget>
+           </item>
+           <item row="3" column="1">
+            <widget class="QDoubleSpinBox" name="roulis">
+             <property name="minimum">
+              <double>0.000000000000000</double>
+             </property>
+             <property name="maximum">
+              <double>360.000000000000000</double>
+             </property>
+             <property name="singleStep">
+              <double>15.000000000000000</double>
+             </property>
+            </widget>
+           </item>
+           <item row="4" column="0">
+            <widget class="QLabel" name="label_6">
+             <property name="text">
+              <string>tangage</string>
+             </property>
+            </widget>
+           </item>
+           <item row="4" column="1">
+            <widget class="QDoubleSpinBox" name="tangage">
+             <property name="minimum">
+              <double>0.000000000000000</double>
+             </property>
+             <property name="maximum">
+              <double>360.000000000000000</double>
+             </property>
+             <property name="singleStep">
+              <double>15.000000000000000</double>
+             </property>
+            </widget>
+           </item>
+           <item row="5" column="0">
+            <widget class="QLabel" name="label_7">
+             <property name="text">
+              <string>lacet</string>
+             </property>
+            </widget>
+           </item>
+           <item row="5" column="1">
+            <widget class="QDoubleSpinBox" name="lacet">
+             <property name="minimum">
+              <double>0.000000000000000</double>
+             </property>
+             <property name="maximum">
+              <double>360.000000000000000</double>
+             </property>
+             <property name="singleStep">
+              <double>15.000000000000000</double>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="pushButton">
+          <property name="text">
+           <string>Créer le cube</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QGroupBox" name="groupBox_3">
+          <property name="title">
+           <string>Bonus</string>
           </property>
           <layout class="QVBoxLayout" name="verticalLayout_2">
            <item>
-            <widget class="QCheckBox" name="checkBox">
+            <widget class="QComboBox" name="comboBox">
+             <item>
+              <property name="text">
+               <string>Yokohama</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>Chypre</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>Toronto</string>
+              </property>
+             </item>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="label_8">
              <property name="text">
-              <string>Fil de fer</string>
+              <string>Choix de skybox</string>
              </property>
             </widget>
            </item>
            <item>
-            <widget class="QLabel" name="label_2">
-             <property name="text">
-              <string>Opacité</string>
-             </property>
-             <property name="alignment">
-              <set>Qt::AlignCenter</set>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QSlider" name="opacitySlider">
+            <widget class="QLabel" name="label_9">
              <property name="sizePolicy">
-              <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+              <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
                <horstretch>0</horstretch>
                <verstretch>0</verstretch>
               </sizepolicy>
              </property>
-             <property name="toolTip">
-              <string>Modfie l'opacité</string>
+             <property name="lineWidth">
+              <number>0</number>
              </property>
-             <property name="maximum">
-              <number>100</number>
-             </property>
-             <property name="value">
-              <number>100</number>
-             </property>
-             <property name="orientation">
-              <enum>Qt::Horizontal</enum>
-             </property>
-             <property name="tickPosition">
-              <enum>QSlider::TicksBothSides</enum>
-             </property>
-             <property name="tickInterval">
-              <number>10</number>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QLabel" name="label_3">
              <property name="text">
-              <string>Taille</string>
+              <string>Bonus 2: Zoom avec molette de la souris</string>
              </property>
-             <property name="alignment">
-              <set>Qt::AlignCenter</set>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QSlider" name="horizontalSlider">
-             <property name="sizePolicy">
-              <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-               <horstretch>0</horstretch>
-               <verstretch>0</verstretch>
-              </sizepolicy>
-             </property>
-             <property name="maximum">
-              <number>400</number>
-             </property>
-             <property name="singleStep">
-              <number>1</number>
-             </property>
-             <property name="value">
-              <number>100</number>
-             </property>
-             <property name="orientation">
-              <enum>Qt::Horizontal</enum>
+             <property name="wordWrap">
+              <bool>true</bool>
              </property>
             </widget>
            </item>
@@ -222,8 +347,8 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>800</width>
-     <height>22</height>
+     <width>1045</width>
+     <height>21</height>
     </rect>
    </property>
   </widget>
@@ -243,6 +368,10 @@
     <slot>changeScale(int)</slot>
     <slot>changeSaturation(int)</slot>
     <slot>changeCameraType(bool)</slot>
+    <slot>createCube()</slot>
+    <slot>filterChanged(int)</slot>
+    <slot>filterStrengthChanged(int)</slot>
+    <slot>switchSkybox(int)</slot>
    </slots>
   </customwidget>
  </customwidgets>
@@ -255,8 +384,8 @@
    <slot>startAnimation()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>708</x>
-     <y>53</y>
+     <x>1033</x>
+     <y>54</y>
     </hint>
     <hint type="destinationlabel">
      <x>412</x>
@@ -271,8 +400,8 @@
    <slot>changeFov(int)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>742</x>
-     <y>157</y>
+     <x>1023</x>
+     <y>211</y>
     </hint>
     <hint type="destinationlabel">
      <x>412</x>
@@ -281,52 +410,39 @@
    </hints>
   </connection>
   <connection>
-   <sender>opacitySlider</sender>
-   <signal>valueChanged(int)</signal>
-   <receiver>widgetRV</receiver>
-   <slot>changeOpacity(int)</slot>
+   <sender>pushButton</sender>
+   <signal>clicked()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>createCube()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>765</x>
-     <y>384</y>
+     <x>979</x>
+     <y>438</y>
     </hint>
     <hint type="destinationlabel">
-     <x>372</x>
-     <y>322</y>
+     <x>972</x>
+     <y>609</y>
     </hint>
    </hints>
   </connection>
   <connection>
-   <sender>checkBox</sender>
-   <signal>toggled(bool)</signal>
+   <sender>comboBox</sender>
+   <signal>currentIndexChanged(int)</signal>
    <receiver>widgetRV</receiver>
-   <slot>changeWireFrame(bool)</slot>
+   <slot>switchSkybox(int)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>774</x>
-     <y>306</y>
+     <x>973</x>
+     <y>488</y>
     </hint>
     <hint type="destinationlabel">
-     <x>572</x>
-     <y>380</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>horizontalSlider</sender>
-   <signal>valueChanged(int)</signal>
-   <receiver>widgetRV</receiver>
-   <slot>changeScale(int)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>769</x>
-     <y>440</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>590</x>
-     <y>444</y>
+     <x>873</x>
+     <y>656</y>
     </hint>
    </hints>
   </connection>
  </connections>
+ <slots>
+  <slot>createCube()</slot>
+ </slots>
 </ui>

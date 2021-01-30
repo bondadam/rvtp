@@ -41,8 +41,9 @@ RVBody::RVBody()
 
 RVBody::~RVBody()
 {
-    if (m_program.hasOpenGLShaderPrograms())
+    if (m_program.hasOpenGLShaderPrograms()){
         m_program.removeAllShaders();
+    }
     m_vao.destroy();
     m_ibo.destroy();
     m_vbo.destroy();
@@ -72,8 +73,9 @@ void RVBody::initializeShader()
 {
     initializeOpenGLFunctions();
 
-    if (m_program.hasOpenGLShaderPrograms())
+    if (m_program.hasOpenGLShaderPrograms()){
         m_program.removeAllShaders();
+    }
     bool resultat;
 
     //Vertex Shader

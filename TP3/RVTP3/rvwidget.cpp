@@ -33,6 +33,7 @@ RVWidget::~RVWidget()
     delete m_world;
     delete m_timer;
     delete m_dice;
+    delete m_scene;
 }
 
 void RVWidget::initializeGL()
@@ -46,12 +47,13 @@ void RVWidget::initializeGL()
 
     float scale = float(this->width())/this->height();
 
-    m_camera = new RVCamera();
+    m_camera = new RVSphericalCamera();
     m_camera->setAspect(scale);
     m_camera->setIsOrthogonal(false);
-    m_camera->setPosition(QVector3D(0, 10, 20));
+    //m_camera->setPosition(QVector3D(0, 10, 20));
     m_camera->setTarget(QVector3D(0, 0, 0));
-    m_camera->setZMin(10);
+    m_camera->setZMin(1);
+    m_camera->setRho(20);
 
     m_body = new RVTexCube();
     m_body->setCamera(m_camera);
@@ -62,7 +64,7 @@ void RVWidget::initializeGL()
 
     m_dice = new RVDice();
     m_dice->setCamera(m_camera);
-    m_dice->setPosition(QVector3D(2, 2, 2));
+    m_dice->setPosition(QVector3D(0, 0, 0));
     m_dice->setTexture(":/textures/dice_texture.jpg", false);
     m_dice->setScale(3);
     m_dice->initialize();
@@ -88,19 +90,51 @@ void RVWidget::initializeGL()
     m_torus->setFS(":/shaders/FS_texture_damier.fsh");
     m_torus->initialize();
 
+    m_skybox = new RVSkyBox();
+    m_skybox->setCamera(m_camera);
+    m_skybox->setPosition(QVector3D(0, 0, 0));
+    m_skybox->setCulling(false);
+    m_skybox->setScale(50);
+    m_skybox->setCubeTexture(":/textures/negx.jpg", ":/textures/posx.jpg", ":/textures/posz.jpg", ":/textures/negz.jpg", ":/textures/posy.jpg", ":/textures/negy.jpg");
+    m_skybox->initialize();
+
+
+    m_scene = new RVScene();
+    m_scene->append(m_body);
+    m_scene->append(m_dice);
+    m_scene->append(m_plane);
+    m_scene->append(m_world);
+    m_scene->append(m_torus);
+    m_scene->append(m_skybox);
+    m_scene->setCamera(m_camera);
+
     connect(m_timer, SIGNAL(timeout()), this, SLOT(update()));
     m_timer->start(10);
+}
+
+void RVWidget::switchSkybox(int new_index){
+    this->makeCurrent();
+    m_skybox->setCubeTexture(":/textures/" + skybox_prefixes[new_index] + "negx.jpg",
+                             ":/textures/" + skybox_prefixes[new_index] + "posx.jpg",
+                             ":/textures/" + skybox_prefixes[new_index] + "posz.jpg",
+                             ":/textures/" + skybox_prefixes[new_index] + "negz.jpg",
+                             ":/textures/" + skybox_prefixes[new_index] + "posy.jpg",
+                             ":/textures/" + skybox_prefixes[new_index] + "negy.jpg");
+    m_skybox->initialize();
+}
+
+void RVWidget::addBody(RVBody *obj){
+    this->makeCurrent();
+    obj->initialize();
+    obj->setCamera(m_camera);
+    m_scene->append(obj);
 }
 
 void RVWidget::paintGL()
 {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-    m_body->draw();
-    m_plane->draw();
-    m_world->draw();
-    m_torus->draw();
-    m_dice->draw();
+    m_scene->draw();
 }
 
 void RVWidget::resizeGL(int w, int h)
@@ -115,9 +149,7 @@ void RVWidget::resizeGL(int w, int h)
 void RVWidget::update()
 {
     if (m_animation) {
-        m_body->rotate(m_angularVelocityY, QVector3D(0, 1, 0));
-        m_dice->rotate(m_angularVelocityY, QVector3D(0, 1, 0));
-        m_world->rotate(m_angularVelocityY, QVector3D(0, 1, 0));
+        m_scene->rotate(m_angularVelocityY, QVector3D(0, 1, 0));
     }
     QOpenGLWidget::update();
 }
@@ -137,33 +169,45 @@ void RVWidget::changeFov(int newFov)
 void RVWidget::changeOpacity(int newOpacity)
 {
     //m_body->setOpacity(newOpacity * 0.01f);
-    m_plane->setOpacity(newOpacity * 0.01f);
-    m_world->setOpacity(newOpacity * 0.01f);
+    //m_scene->first()->setOpacity(newOpacity * 0.01f);
+    //m_world->setOpacity(newOpacity * 0.01f);
+    foreach (RVBody* body, m_scene->toList()) {
+           body->setOpacity(newOpacity * 0.01f);
+    }
 }
 
 void RVWidget::changeWireFrame(bool b)
 {
     m_world->setWireFrame(b);
+    m_body->setWireFrame(b);
+    m_dice->setWireFrame(b);
 }
 
 void RVWidget::changeCulling(bool b)
 {
-    m_body->setCulling(b);
+    foreach (RVBody* body, m_scene->toList()) {
+           body->setCulling(b);
+    }
 }
 
 void RVWidget::changeScale(int s)
 {
     m_world->setScale(s*0.01f);
+    m_body->setScale(s*0.01f);
+    m_dice->setScale(s*0.01f);
 }
 
 void RVWidget::changeSaturation(int s)
 {
-    m_body->setGlobalColor(QColor(s, s, s));
+    foreach (RVBody* body, m_scene->toList()) {
+           body->setGlobalColor(QColor(s, s, s));
+    }
 }
 
 void RVWidget::changeCameraType(bool b)
 {
     m_camera->setIsOrthogonal(!b);
+    m_scene->setCamera(m_camera);
 }
 
 void RVWidget::mousePressEvent(QMouseEvent *event)
@@ -173,18 +217,43 @@ void RVWidget::mousePressEvent(QMouseEvent *event)
 
 void RVWidget::mouseMoveEvent(QMouseEvent *event)
 {
+    /*
     float dx = float(event->position().x() - m_oldPos.x()) / width();
     float dy = float(event->position().y() - m_oldPos.y()) / height();
     float angleX = 180 * dy;
     float angleY = 180 * dx;
-    m_world->rotate(angleX, QVector3D(1, 0, 0));
-    m_world->rotate(angleY, QVector3D(0, 1, 0));
-    m_body->rotate(angleX, QVector3D(1, 0, 0));
-    m_dice->rotate(angleX, QVector3D(1, 0, 0));
-    m_body->rotate(angleY, QVector3D(0, 1, 0));
-    m_dice->rotate(angleY, QVector3D(0, 1, 0));
+    m_scene->rotate(angleX, QVector3D(1, 0, 0));
+    m_scene->rotate(angleY, QVector3D(0, 1, 0));
+    m_oldPos = event->pos();*/
+
+    float dx = float(event->position().x() - m_oldPos.x()) / width();
+    float dy = float(event->position().y() - m_oldPos.y()) / height();
+    m_camera->setPhi(m_camera->phi() + dy);
+    m_camera->setTheta(m_camera->theta() + dx);
     m_oldPos = event->pos();
 
+    QOpenGLWidget::update();
+}
+
+void RVWidget::wheelEvent(QWheelEvent *event){
+    /* Ce code marche mais en fait c'est bien plus simple de
+     * simplement se servir de rho...
+    float dz = event->angleDelta().y()/8;
+    float step = 0.01f;
+    float diff_x = m_camera->target().x() - m_camera->position().x();
+    float diff_y = m_camera->target().y() - m_camera->position().y();
+    float diff_z = m_camera->target().z() - m_camera->position().z();
+    QVector3D old_position = m_camera->position();
+    QVector3D new_position;
+    new_position.setX(old_position.x() + (step * diff_x * dz));
+    new_position.setY(old_position.y() + (step * diff_y * dz));
+    new_position.setZ(old_position.z() + (step * diff_z * dz));
+    m_camera->setPosition(new_position);
+    QOpenGLWidget::update();
+    */
+    float dz = -event->angleDelta().y()/8;
+    float step = 0.1f;
+    m_camera->setRho(m_camera->rho() + step*dz);
     QOpenGLWidget::update();
 }
 

@@ -20,14 +20,18 @@
 #include <QPoint>
 #include <QMouseEvent>
 #include <QKeyEvent>
+#include <QWheelEvent>
 
 #include "rvcamera.h"
+#include "rvsphericalcamera.h"
 #include "rvcube.h"
 #include "rvtexcube.h"
 #include "rvplane.h"
 #include "rvsphere.h"
 #include "rvtorus.h"
 #include "rvdice.h"
+#include "rvscene.h"
+#include "rvskybox.h"
 
 /*!
  * \brief The RVWidget class est un widget ViewControlleur pour tous nos programmes.
@@ -73,6 +77,8 @@ public:
      */
     void resizeGL(int w, int h) override;
 
+    void addBody(RVBody *obj);
+
 private slots:
     /*!
      * \brief slot associé au timer. Doit gérer la mise à our des objets puis appeler la méthode update
@@ -101,6 +107,7 @@ public slots:
     void changeScale(int s);
     void changeSaturation(int s);
     void changeCameraType(bool b);
+    void switchSkybox(int new_index);
 
 protected:
     /*!
@@ -113,6 +120,8 @@ protected:
      * qui gèrera le déplacement de l'objet.
      */
     void mousePressEvent(QMouseEvent* event) override;
+
+    void wheelEvent(QWheelEvent* event) override;
 
     /*!
      * \brief mouseMoveEvent
@@ -127,17 +136,20 @@ protected:
     void keyPressEvent(QKeyEvent* event) override;
 
 protected:
-    RVCamera *m_camera;         //!<    Pointeur sur la caméra à utiliser lors du rendu
+    RVSphericalCamera *m_camera;         //!<    Pointeur sur la caméra à utiliser lors du rendu
     RVBody   *m_body;           //!<    Objet montré dans le widget
     RVBody   *m_plane;          //!<    Plan horizontal
     RVBody   *m_world;          //!<    Sphère terrestre
     RVBody   *m_torus;          //!<    Tore à carreaux
     RVBody   *m_dice;           //!<    Dé
+    RVSkyBox *m_skybox;         //!<    Skybox
     QTimer* m_timer;            //!<    Timer utilisé lors de l'animation
     float m_angularVelocityX;   //!<    Vitesse angulaire autour de l'axe x
     float m_angularVelocityY;   //!<    Vitesse angulaire autour de l'axe y
     float m_angularVelocityZ;   //!<    Vitesse angulaire autour de l'axe z
     QPoint m_oldPos;            //!<    Position du clic souris (utilisé dans mouseMove)
     bool m_animation;           //!<    Booléen qui dit si l'animation est activée ou pas
+    RVScene  *m_scene;          //!<    Container de tous les objets de la scène
+    QString skybox_prefixes[3] = {"", "cyprus_", "toronto_"};
 };
 #endif // RVWIDGET_H
